@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Listeners\Comment\UpdatedEvent;
 use App\Models\Comment;
 
 use App\Observers\CommentObserver;
 
-use App\Services\EloquentSpy;
 
+
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,11 +39,11 @@ class SpyServiceProvider extends ServiceProvider
     public function register()
     {
         //   var_dump(config('spy'));
-        $this->app->bind('EloquentSpy', function ($app) {
-            return new EloquentSpy();
-        });
+    //    $this->app->bind('EloquentSpy', function ($app) {
+      //      return new EloquentSpy();
+       // });
 
-
+//
 //      $this->app->singleton(EloquentSpy::class, function ($app) {
 //           return new EloquentSpy();
 //        });
@@ -69,9 +71,48 @@ class SpyServiceProvider extends ServiceProvider
 //            [EloquentSpy::class, 'handle']
 //        );
 
-        Event::listen('*', function ($event) {
-            echo $event; echo '<br>';
-        });
+       // Comment::observe(CommentObserver::class);
+//
+//        Event::listen('*QueryExecuted*', function ($eventName, array $data) {
+//            echo $eventName; echo '<br>';
+//        });
+
+
+        Event::listen(
+            QueryExecuted::class,
+            [CommentObserver::class, 'handle']
+        );
+
+
+
+//            Event::listen('*eloquent*', function ($eventName, array $data) {
+//            echo $eventName; echo '<br>';
+//
+//                echo '<br>';
+//            });
+
+
+//var_dump( $data);
+//            try { //echo json_encode($data[0]);
+//                foreach ($data[0] as $k => $v) {
+//                    echo json_encode($v);
+//                    echo '<br>';
+//
+//                }
+//
+//                echo 'd';
+//                //    echo json_encode($data[0][0]);
+//            } catch (Exception $e) {
+//                echo 'Выброшено исключение: ', $e->getMessage(), "\n";
+//            }
+
+
+
+         //  print_r($data);
+            // echo(json_encode($data->bindings));
+
+
+ //       Comment::observe(CommentObserver::class);
 
     }
 }

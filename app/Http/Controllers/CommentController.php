@@ -30,7 +30,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -50,11 +50,12 @@ class CommentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function show(Comment $comment)
     {
+
         $comment = Comment::query()->latest()->first();
         return view('comments/show', ['comment' => $comment]);
     }
@@ -62,7 +63,7 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function edit(Comment $comment)
@@ -73,8 +74,8 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
 
@@ -85,7 +86,6 @@ class CommentController extends Controller
     }
 
 
-
     public function update(Request $request, Comment $comment)
     {
         $request->validate([
@@ -93,20 +93,27 @@ class CommentController extends Controller
             'text' => 'required',
         ]);
 
-       $comm =  Comment::where('id','=',$request->input('id'));
-       $comm->update(['text'=>$request->input('text')]);
+        Comment::query()->
+        where('id', '=', $request->input('id'))->
+        update(['text' => $request->input('text')
+        ]);
 
-       //$comm->text =  $request->input('text');
 
-       // $comm->save();
+//        $comm->text = 'Paris to London';
+
+        //      $comm->s;
+
+
+        $comm = Comment::where('id', '=', $request->input('id'));
+        $comm->update(['text' => $request->input('text')]);
+
 
 //        Comment::query()->
 //        where('id', '=', $request->input('id'))->
 //        update(['text' => $request->input('text')
 //        ]);
 
-    //   return redirect()->back();
-
+        //   return redirect()->back();
 
 
     }
@@ -114,7 +121,7 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
      */
     public function destroy(Comment $comment)
