@@ -98,12 +98,6 @@ class CommentController extends Controller
         update(['text' => $request->input('text')
         ]);
 
-
-//        $comm->text = 'Paris to London';
-
-        //      $comm->s;
-
-
         $comm = Comment::where('id', '=', $request->input('id'));
         $comm->update(['text' => $request->input('text')]);
 
@@ -114,8 +108,6 @@ class CommentController extends Controller
 //        ]);
 
         //   return redirect()->back();
-
-
     }
 
     /**

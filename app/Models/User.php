@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Events\UserCreated;
+use App\Events\UserSaved;
+use App\Events\UserUpdated;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,6 +51,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+
 
 
 }

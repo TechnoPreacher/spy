@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Comment;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Events\QueryExecuted;
 
 class CommentObserver
@@ -16,9 +15,21 @@ class CommentObserver
      */
     public function created(Comment $comment)
     {
-        echo "==created ";
+        echo "created ".get_class($comment);
         echo '<br>';
     }
+    public function creating(Comment $comment)
+    {
+        echo "creating ".get_class($comment);
+        echo '<br>';
+    }
+    public function restoring(Comment $comment)
+    {
+        echo "restoring ".get_class($comment);
+        echo '<br>';
+    }
+
+
 
     /**
      * Handle the Comment "updated" event.
@@ -28,7 +39,12 @@ class CommentObserver
      */
     public function updated(Comment $comment)
     {
-        echo "==updated ";
+        echo "updated ".get_class($comment);
+        echo '<br>';
+    }
+    public function updating(Comment $comment)
+    {
+        echo "updating ".get_class($comment);
         echo '<br>';
     }
 
@@ -40,7 +56,7 @@ class CommentObserver
      */
     public function deleted(Comment $comment)
     {
-        echo "==deleted ";
+        echo "deleted ".get_class($comment);
         echo '<br>';
     }
 
@@ -52,7 +68,7 @@ class CommentObserver
      */
     public function restored(Comment $comment)
     {
-        echo "==restored ";
+        echo "restored ".get_class($comment);
         echo '<br>';
     }
 
@@ -64,39 +80,30 @@ class CommentObserver
      */
     public function forceDeleted(Comment $comment)
     {
-        echo "==forceDeleted ";
-        echo '<br>';
+
     }
 
 
     public function retrieved(Comment $comment)
     {
-        echo "==retrieved comment ";  echo '<br>';
+        echo "retrieved comment ".get_class($comment);  echo '<br>';
     //    var_dump($comment->text); echo '<br>';echo '<br>';
     }
 
     public function saving(Comment $comment)
     {
-        echo "s==aving comment ".'<br>';
+        echo "saving comment ".get_class($comment).'<br>';
       //  var_dump($comment);
-        //echo '<br>';echo '<br>';
+
     }
 
     public function saved(Comment $comment)
     {
-        echo "==saved comment ".'<br>';
+        echo "==saved comment ".get_class($comment).'<br>';
         //var_dump($comment);
-        echo '<br>';echo '<br>';
+
     }
 
 
-    public function handle(QueryExecuted $event)
-    {
 
-
-        var_dump( $event->sql);
-      //  var_dump( $event->bindings);
-
-        echo '<br>';
-    }
 }

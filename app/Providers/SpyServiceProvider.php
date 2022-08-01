@@ -5,10 +5,11 @@ namespace App\Providers;
 use App\Listeners\Comment\UpdatedEvent;
 use App\Models\Comment;
 
+use App\Models\User;
 use App\Observers\CommentObserver;
 
 
-
+use App\Observers\UserObserver;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -57,37 +58,39 @@ class SpyServiceProvider extends ServiceProvider
 
     public function boot()
     {
+
+        User::observe(UserObserver::class);//НН
+        Comment::observe(CommentObserver::class);//НН
+
         // публикация файла конфига config.php из недр пакета внутрь приложения app/config/spy --> php artisan vendor:publish
         //$this->publishes([
         //__DIR__.'/../config/config.php' => config_path('spy.php'),
         //]);
 
-        //User::observe('App\Observers\UserObserver');
 
-     //  Comment::observe('App\Observers\CommentObserver');//так работало
 
 //        Event::listen(
 //            Comment::class,
 //            [EloquentSpy::class, 'handle']
 //        );
 
-       // Comment::observe(CommentObserver::class);
+       //Comment::observe(CommentObserver::class);
 //
-//        Event::listen('*QueryExecuted*', function ($eventName, array $data) {
+   Event::listen('*QueryExecuted*', function ($eventName, array $data) {
+            echo $eventName; echo '<br>';
+        });
+
+
+//     1   Event::listen(
+//            QueryExecuted::class,
+//            [CommentObserver::class, 'handle']
+//        );
+
+
+
+//    2       Event::listen('*eloquent*', function ($eventName, array $data) {
 //            echo $eventName; echo '<br>';
-//        });
-
-
-        Event::listen(
-            QueryExecuted::class,
-            [CommentObserver::class, 'handle']
-        );
-
-
-
-//            Event::listen('*eloquent*', function ($eventName, array $data) {
-//            echo $eventName; echo '<br>';
-//
+//var_dump($data);
 //                echo '<br>';
 //            });
 
