@@ -99,7 +99,7 @@ class CommentObserver
 
     public function saved(Comment $comment)
     {
-        echo "==saved comment ".get_class($comment).'<br>';
+        echo "saved comment ".get_class($comment).'<br>';
         //var_dump($comment);
 
     }

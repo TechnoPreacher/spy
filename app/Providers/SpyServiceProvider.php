@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Listeners\Comment\UpdatedEvent;
-use App\Models\Comment;
 
+use App\Models\Comment;
 use App\Models\User;
 use App\Observers\CommentObserver;
 
 
+use App\Observers\QueryObserver;
 use App\Observers\UserObserver;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Event;
@@ -58,7 +58,6 @@ class SpyServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
         User::observe(UserObserver::class);//НН
         Comment::observe(CommentObserver::class);//НН
 
@@ -78,13 +77,15 @@ class SpyServiceProvider extends ServiceProvider
 //
    Event::listen('*QueryExecuted*', function ($eventName, array $data) {
             echo $eventName; echo '<br>';
+
         });
 
 
-//     1   Event::listen(
-//            QueryExecuted::class,
-//            [CommentObserver::class, 'handle']
-//        );
+//     1
+Event::listen(
+            QueryExecuted::class,
+            [QueryObserver::class, 'handle']
+        );
 
 
 

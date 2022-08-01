@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 
+
 class UserObserver
 {
 protected $user;
@@ -39,5 +40,7 @@ protected $user;
     {
         echo "saving";
        // var_dump($user).get_class($user);
+
+
     }
 }
